@@ -1,0 +1,50 @@
+local Antirecoil = false
+local Xmove = {
+    0, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -2, -1, -1, -1, -1, 0, -1, -1, 
+    -1, -1, 0, 0, -2, -2, -2, -1, -1, 0, -1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 
+    1, 0, -1, -1, -2, -1, 0, -1, -1, -1, 0, 0, -1, -1, 0, 0, 1, 1, 1, 0, 
+    1, 0, 1, 0, 0, -1, 0, 1, 0, -1, 1, 0, -1, -1, -1, 1, 0, 0, 1, 1, 
+    1, 0, -1, -1, 0, -2, 0, -1, 0, 0, 1, 1, 1, 1, 0, 0, -2, 0, -1, 0, 
+    -1, 0, -1, 1, 1, -1, 0, -1, 0, -1, -1, 0, -1, 0, -1, -1, -2, -2, -2, -2, -2, 
+    -2, -2, -2, -2, -2, -1, 0, 0, -1, 0, 0, 1, 1, -1, 0, 0, -1, -1, 0, -1, 1, 0, -1
+}
+
+local Ymove = {
+    1, 1, 4, 4, 3, 2, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 
+    2, 2, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4, 2, 4, 4, 4, 3, 3, 4, 
+    4, 4, 3, 2, 4, 4, 3, 3, 4, 4, 4, 2, 4, 2, 4, 4, 4, 2, 4, 4, 3, 
+    2, 4, 4, 2, 3, 2, 4, 4, 2, 3, 4, 4, 4, 3, 4, 4, 3, 3, 4, 4, 
+    4, 3, 3, 4, 4, 4, 3, 4, 2, 4, 2, 3, 4, 4, 4, 4, 4, 4, 4, 3, 
+    2, 4, 4, 3, 3, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 2, 3, 4, 4, 
+    4, 3, 4, 4, 2, 4, 3, 2, 4, 4, 4, 4, 2, 4, 4, 3, 4, 4, 3, 3, 4, 4
+}
+local Tmove = 6
+
+local capacity = 240
+EnablePrimaryMouseButtonEvents(true)
+
+
+function OnEvent(event, arg)
+  OutputLogMessage("event = %s, arg = %d\n", event, arg)
+
+
+  if (event == "MOUSE_BUTTON_PRESSED" and arg == 6) then 
+   Antirecoil = not Antirecoil
+   OutputLogMessage("Antirecoil = %s\n",Antirecoil)
+  end
+
+
+  if (event == "MOUSE_BUTTON_PRESSED" and arg == 1 and Antirecoil == true) then
+    Sleep(4)
+    for i=1,capacity do
+        if(IsMouseButtonPressed(1)  == false) then
+            OutputLogMessage("break\n")
+            break
+        end
+        MoveMouseRelative(Xmove[i],Ymove[i])
+        Sleep(Tmove)
+    end
+    OutputLogMessage("end\n")
+  end
+
+end
